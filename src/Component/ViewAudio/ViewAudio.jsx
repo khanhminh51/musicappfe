@@ -1,6 +1,7 @@
 import { Space, Table, Button, Modal, Form, Input } from "antd";
 import "./ViewAudio.css";
 import { useEffect, useState } from "react";
+import { PlusCircleOutlined } from "@ant-design/icons";
 
 let data = [
   {
@@ -69,6 +70,8 @@ const ViewAudio = () => {
   const [datas, setDatas] = useState(data);
   const [openModal, setOpenModal] = useState(false);
   const [id, setID] = useState(0);
+  const [addingSong, setAddingSong] = useState(false); // New state for controlling the form display
+
   //   useEffect(() => {
   //     // get api
   //     setDatas();
@@ -93,20 +96,22 @@ const ViewAudio = () => {
       title: "Action",
       key: "action",
       render: (record) => (
-        <Space size='middle'>
+        <Space size="middle">
           <Button
-            type='primary'
+            type="primary"
             onClick={() => {
               setOpenModal(true);
               setID(record.id);
-            }}>
+            }}
+          >
             Edit
           </Button>
           <Button
-            type='primary'
+            type="primary"
             onClick={() => {
               setDatas([...datas].filter((d) => d.id !== record.id));
-            }}>
+            }}
+          >
             Delete
           </Button>
         </Space>
@@ -116,11 +121,88 @@ const ViewAudio = () => {
 
   return (
     <>
-      <Button style={{ margin: "10px", padding: "10px" }}>Add Song</Button>
+      <Button
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "10px",
+          padding: "10px 15px",
+          backgroundColor: "#1890ff",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          fontSize: "16px",
+          fontWeight: "bold",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          transition: "background-color 0.3s ease",
+        }}
+        onClick={() => setAddingSong(true)}
+      >
+        <PlusCircleOutlined style={{ marginRight: "5px" }} />
+        Add New Song
+      </Button>
+
+      <Modal
+        title={
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: 24,
+              fontWeight: 600,
+              color: "#199cff",
+              fontFamily: "Poppins",
+            }}
+          >
+            Add New Song
+          </div>
+        }
+        visible={addingSong}
+        onCancel={() => setAddingSong(false)}
+        footer={null}
+      >
+        <Form
+          name="addSongForm"
+          onFinish={(values) => {
+            const newSong = {
+              id: datas.length + 1,
+              title: values.title,
+              description: values.description,
+            };
+            setDatas([...datas, newSong]);
+            setAddingSong(false);
+            document.getElementById("addSongForm").reset();
+          }}
+        >
+          <Form.Item
+            label="Title Article"
+            name="title"
+            rules={[{ required: true, message: "Please input the title!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[
+              { required: true, message: "Please input the description!" },
+            ]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Add
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
       <Table
         columns={columns}
         dataSource={datas}
-        pagination={{ position: ["bottomCenter"], pageSize: 50 }}
+        pagination={{ position: ["bottomCenter"], pageSize: 5 }}
       />
       <Modal
         title={
@@ -131,7 +213,8 @@ const ViewAudio = () => {
               fontWeight: 600,
               color: "#199cff",
               fontFamily: "Poppins",
-            }}>
+            }}
+          >
             Edit Song
           </div>
         }
@@ -149,13 +232,14 @@ const ViewAudio = () => {
         styles={{
           content: { width: 700 },
           title: { fontSize: 50 },
-        }}>
+        }}
+      >
         <Form
-          name='wrap'
+          name="editSongForm"
           labelCol={{
             flex: "110px",
           }}
-          labelAlign='left'
+          labelAlign="left"
           labelWrap
           wrapperCol={{
             flex: 1,
@@ -177,17 +261,27 @@ const ViewAudio = () => {
                 return data;
               })
             );
-          }}>
-          <Form.Item label='title' name='Title Article'>
+            document.getElementById("editSongForm").reset();
+          }}
+        >
+          <Form.Item
+            label="title"
+            name="Title Article"
+            rules={[{ required: true, message: "Please input the title!" }]}
+          >
             <Input />
           </Form.Item>
 
-          <Form.Item label='description' name='Description'>
+          <Form.Item
+            label="description"
+            name="Description"
+            rules={[{ required: true, message: "Please input the description!" }]}
+          >
             <Input />
           </Form.Item>
 
-          <Form.Item label=' '>
-            <Button type='primary' htmlType='submit'>
+          <Form.Item label=" ">
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

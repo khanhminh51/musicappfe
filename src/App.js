@@ -6,44 +6,47 @@ import SideBar from "./Component/SideBar/SideBar";
 import AudioRank from "./Component/AudioRank/AudioRank";
 import { Layout, Space } from "antd";
 import { Route, Routes } from "react-router-dom";
+
+
+//connect db
+
 function App() {
   return (
     <Space>
-      <Layout style={{ width: "15vw" }}>
-        <Layout.Sider>
-          <SideBar />
-        </Layout.Sider>
-      </Layout>
-      <Layout style={{ width: "85vw" }}>
-        <Layout.Header>
+      <Layout>
+        <Layout.Header style={{ width: "100vw", height: "72px" }}>
           <Header />
         </Layout.Header>
-        <Layout.Content>
-          <Routes>
-            <Route
-              path='/'
-              element={
-                <>
-                  <ViewAudio />
-                </>
-              }
-            />
-            <Route
-              path='/audioRank'
-              element={
-                <>
-                  <AudioRank />
-                </>
-              }
-            />
-          </Routes>
-        </Layout.Content>
-        <Layout.Footer>
+        <Layout>
+          <Layout.Sider style={{ width: "15vw", height: "100vh" }}>
+            <SideBar />
+          </Layout.Sider>
+          <Layout.Content style={{ width: "85vw", height: "100vh" }}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <ViewAudio />
+                  </>
+                }
+              />
+              <Route
+                path="/audioRank"
+                element={
+                  <>
+                    <AudioRank />
+                  </>
+                }
+              />
+            </Routes>
+          </Layout.Content>
+        </Layout>
+        <Layout.Footer style={{ width: "100vw", height: "72px" }}>
           <Footer />
         </Layout.Footer>
       </Layout>
     </Space>
   );
 }
-
 export default App;

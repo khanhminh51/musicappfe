@@ -1,0 +1,26 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.titleBox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.content{
+    background-color: green;
+    margin: 0.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.title{
+    margin: 0rem;
+    color: white;
+}
+
+.logo{
+    margin: 1rem;
+    background-color: white;
+}
